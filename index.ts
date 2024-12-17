@@ -1,6 +1,6 @@
 /**
 |--------------- Feruliym Project ----------------
-| 
+|   The logical, mathematical, arrays manager and more! It makes the code be cleaner.
 |---------- By Somchai Jaidee, Alias -------------
 |--------- https://github.com/TaarnN -------------
 */
@@ -39,40 +39,22 @@ Fname(`...rules`)(...parameters)
 |--------------------------------------------------
 */
 
-// Normal Replace function N()
-const Nfunc = (rules: string, params: any[]) => {
-  let state = rules;
-
-  params.forEach((v, index) => {
-    const target = (index + 1).toString();
-    const replacement = v.toString();
-
-    state = state.replace(new RegExp(`(?<!)\\{${target}\\}`, "g"), replacement);
-  });
-
-  return new Function(`return (${state})`)();
-};
-
 // Logical Function F()
 
 const Ffunc = (rules: string, params: any[]) => {
   let state = rules;
 
   params.forEach((bool, index) => {
-    state = state.replace((index + 1).toString(), `${new Boolean(bool)}`);
-  });
+    const target = (index + 1).toString();
+    const replacement = bool.toString();
 
-  if (/\d/.test(state)) {
-    throw new Error(
-      `Rules overused parameters: ${state.match(/\d/)}. Parameters size: ${
-        params.length
-      }`
-    );
-  }
+    state = state.replace(new RegExp(`(?<!&)${target}`, "g"), replacement);
+  });
 
   const replacements: { [key: string]: string } = {
     " ": "", // clear all spaces
     "@": "", // use @ sign for more readability only
+    "&": "", // use & for define the number won't be replaced by parameter
 
     // comparison
     "=": "===",
@@ -89,17 +71,18 @@ const Ffunc = (rules: string, params: any[]) => {
     "-": "!",
     "~": "^", // XOR
 
-    // parentheses
-    "[": "(",
-    "]": ")",
-    "{": "(",
-    "}": ")",
-
     ...Additions.Ffunc_Operators_Additions,
   };
 
+  // console.log(Object.keys(replacements).join("|"));
   const regex = new RegExp(Object.keys(replacements).join("|"), "g");
-  state = state.replace(regex, (matched: string) => replacements[matched]);
+  state = state
+    .replace(regex, (matched: string) => replacements[matched])
+    // parentheses
+    .replace(/\[/g, "(")
+    .replace(/\]/g, ")")
+    .replace(/\{/g, "(")
+    .replace(/\}/g, ")");
 
   return new Function(`return (${state})`)();
 };
@@ -191,8 +174,5 @@ const Mfunc = (rules: string, params: any[]) => {
 
 // Export
 
-export const N = createFRLYFunction(Nfunc);
 export const F = createFRLYFunction(Ffunc);
 export const M = createFRLYFunction(Mfunc);
-
-console.log(N(`Hello, {1}`)(`Jamey!`));

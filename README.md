@@ -1,15 +1,36 @@
-# feruliym
+# Feruliym Project
 
-To install dependencies:
+The logical, mathematical, arrays manager and more! It makes the code be cleaner. 👍 👍
 
-```bash
-bun install
+## Examples 
+
+normal TS :
+
+```typescript
+if ((1 > 2 && 4 === 5) || (false && !true)) {
+  console.log("Hello, world!");
+}
 ```
 
-To run:
+TS with Feruliym F function - logical & comparison manager :
 
-```bash
-bun run index.ts
+```typescript
+import { F } from "feruliym";
+
+const rules = `[1 > 2, 3 = 4] / [5, -6]`;
+
+if (F(rules)(1, 2, 4, 5, false, true)) {
+  console.log("Hello, world!");
+}
 ```
 
-This project was created using `bun init` in bun v1.1.10. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+Or using & for real number :
+```typescript
+import { F } from "feruliym";
+
+const rules = `[&1 > &2, &4 = &5] / [false, -true]`;
+
+if (F(rules)()) {
+  console.log("Hello, world!");
+}
+```
