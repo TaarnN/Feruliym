@@ -54,6 +54,8 @@ if (F(rules)()) {
 
 Add new function : A() - Array Manager
 
+(In development)
+
 ## Usage
 
 Feruliym functions have 2 parts when calling them.
