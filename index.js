@@ -45,7 +45,7 @@ const Ffunc = (rules, params) => {
   params.forEach((bool, index) => {
     const target = (index + 1).toString();
     const replacement = bool.toString();
-    state = state.replace(new RegExp(`(?<!&)${target}`, "g"), replacement);
+    state = state.replace(new RegExp(`(\\@)${target}`, "g"), replacement);
   });
   const replacements = Object.assign(
     funcReplacement.F,
@@ -70,10 +70,7 @@ const Mfunc = (rules, params) => {
   params.forEach((n, index) => {
     const target = (index + 1).toString();
     const replacement = n.toString();
-    state = state.replace(
-      new RegExp(`(?<!&)${target}(?!\\.)`, "g"),
-      replacement
-    );
+    state = state.replace(new RegExp(`(\\@)${target}`, "g"), replacement);
   });
   const replacements = Object.assign(
     funcReplacement.M,
@@ -89,13 +86,10 @@ const Mfunc = (rules, params) => {
 const Afunc = (rules, params) => {
   let state = rules[0];
 
-  params.forEach((n, index) => {
+  params.forEach((array, index) => {
     const target = (index + 1).toString();
-    const replacement = n.toString();
-    state = state.replace(
-      new RegExp(`(?<!&)${target}(?!\\.)`, "g"),
-      replacement
-    );
+    const replacement = JSON.stringify(array);
+    state = state.replace(new RegExp(`(\\@)${target}`, "g"), replacement);
   });
 
   state = Formats(state);
@@ -112,5 +106,5 @@ export const F = createFRLYFunction(Ffunc);
 export const M = createFRLYFunction(Mfunc);
 export const A = createFRLYFunction(Afunc);
 
-R(`1...9`)
-console.log(A()())
+R(`[1,2] + ["+", 6...8]`);
+console.log(A()());

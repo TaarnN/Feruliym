@@ -76,18 +76,24 @@ const funcReplacement = {
 };
 
 const Formats = (state) => {
-  const resultString = state.replace(
-    /(\d+)\.\.\.(\d+)/g,
-    (match, start, end) => {
-      const startNum = parseInt(start, 10);
-      const endNum = parseInt(end, 10);
+  const ranged = state.replace(/(\d+)\.\.\.(\d+)/g, (match, start, end) => {
+    const startNum = parseInt(start, 10);
+    const endNum = parseInt(end, 10);
 
-      const rangeArray = Array.from(
-        { length: endNum - startNum + 1 },
-        (_, index) => startNum + index
-      );
+    const rangeArray = Array.from(
+      { length: endNum - startNum + 1 },
+      (_, index) => startNum + index
+    );
+    return JSON.stringify(rangeArray);
+  });
+  const resultString = ranged.replace(
+    /(\[[^\[\]]*?\])(?:\s*\+\s*(\[[^\[\]]*?\]))+/g,
+    (match) => {
+      const arrays = match.match(/(\[[^\[\]]*?\])|(["'`].*?["'`])/g);
 
-      return JSON.stringify(rangeArray);
+      return `[${arrays
+        .map((item) => (item.startsWith("[") ? `...${item.trim()}` : item))
+        .join(", ")}]`;
     }
   );
 

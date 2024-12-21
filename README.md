@@ -33,30 +33,39 @@ TS with Feruliym F function - logical & comparison manager :
 ```typescript
 import { F } from "@ttaarrnn/feruliym";
 
-const rules = `[1 > 2, 3 = 4] / [5, -6]`;
+R(`[@1 > @2, @3 = @4] / [@5, -@6]`);
 
-if (F(rules)(1, 2.33, 4, 5, false, true)) {
+if (F()(1, 2.33, 4, 5, false, true)) {
   console.log("Hello, world!");
 }
 ```
 
-Or using & for real number ( unrecommended, and important to add every & infront of every single number, even the decimal point number! ) :
+Or using real value :
 
 ```typescript
 import { F } from "@ttaarrnn/feruliym";
 
-const rules = `[&1 > &2.&3&3, &4 = &5] / [false, -true]`;
+R(`[1 > 2.33, 4 = 5] / [false, -true]`);
 
-if (F(rules)()) {
+if (F()()) {
   console.log("Hello, world!");
 }
 ```
 
 ## Update 1.2.0
 
-Add new function : A() - Array Manager
+- Modified parameter indexes, they must be after @ sign, such as `@1`.
 
-(In development)
+- Add new function : A() - Array Manager
+
+### A( ) Function
+
+Abilities & rules syntax :
+
+1. Number Range. Syntax: `"StartN...EndN"` such as `"2...8"` the result will be `[2, 3, 4, 5, 6, 7, 8]`.
+
+2. Array Combining, unlike concat method, it derectly combines the arrays. Syntax: `"Array + Array + ..."` such as `"['a', 'b', 'c', [1, 2, 3]] + [4,5,6]"` the result will be `['a', 'b', 'c', [1, 2, 3], 4, 5, 6]`.
+   It uses + (plus) sign and the amount of arrays does not matter.
 
 ## Usage
 
@@ -79,12 +88,12 @@ Feruliym functions have 2 parts when calling them.
 // In M function - Mathematical manager
 
 let x = 10;
-console.log(M(`1% * abs(2 - 3)`)(x, 5, 5 - x));
+console.log(M(`@1% * abs(@2 - @3)`)(x, 5, 5 - x));
 ```
 
 ### Explanation
 
-The rules part is `"1% * abs(2 - 3)"`.
+The rules part is `"@1% * abs(@2 - @3)"`.
 
 In M function, % (percentage) sign will be replaced by "/100" and abs will be replaced by "Math.abs".
 
@@ -95,14 +104,14 @@ while x is variable containing the value of 10, so parameter part after replace 
 
 Then, the function will replace index numbers with parameters in order.
 
-The final result will be `"10/100 * Math.abs(5 - -5)"`, and the function will interpret the result as `1`
+The final result will be `"10/100 * Math.abs(5 - -5)"`, and the function will interpret the result as `1`.
 
 ## All Functions
 
-| Name | Description                                                               | Example                                      |
-| ---- | ------------------------------------------------------------------------- | -------------------------------------------- |
-| F    | Use for logically management and comparison                               | F(\`(1, 2) / (3; 4)\`)(true, true, "6", "4") |
-| M    | Use for Mathematically management, including Math functions and constants | M(\`√(2) + pi\`)()                           |
+| Name | Description                                                               | Example                                              |
+| ---- | ------------------------------------------------------------------------- | ---------------------------------------------------- |
+| F    | Use for logically management and comparison                               | F(\`({1}, {2}) / ({3}; {4})\`)(true, true, "6", "4") |
+| M    | Use for Mathematically management, including Math functions and constants | M(\`√(2) + pi\`)()                                   |
 
 ## All replacements
 

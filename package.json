@@ -1,6 +1,6 @@
 {
   "name": "@ttaarrnn/feruliym",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "The logical, mathematical manager and more! It makes the code be cleaner.",
   "module": "index.js",
   "type": "module",
