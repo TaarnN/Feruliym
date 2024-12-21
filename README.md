@@ -56,7 +56,7 @@ if (F()()) {
 
 - Modified parameter indexes, they must be after @ sign, such as `@1`.
 
-- Add new function : A() - Array Manager
+- Add new function : A() - Array Manager **still unstable**
 
 ### A( ) Function
 
